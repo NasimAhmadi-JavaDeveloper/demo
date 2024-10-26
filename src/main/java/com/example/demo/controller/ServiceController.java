@@ -22,13 +22,13 @@ public class ServiceController {
     }
 
     @PostMapping
-    public ResponseEntity<ServiceDto> create(@RequestBody @Valid ServiceDto serviceDto) {
-        return ResponseEntity.ok(service.createService(serviceDto));
+    public ResponseEntity<ServiceDto> create(@RequestBody @Valid ServiceDto dto) {
+        return ResponseEntity.ok(service.createService(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ServiceDto> update(@PathVariable Long id, @RequestBody @Valid ServiceDto serviceDto) {
-        return ResponseEntity.ok(service.updateService(id, serviceDto));
+    public ResponseEntity<ServiceDto> update(@PathVariable Long id, @RequestBody @Valid ServiceDto dto) {
+        return ResponseEntity.ok(service.updateService(id, dto));
     }
 
     @DeleteMapping("/{id}")

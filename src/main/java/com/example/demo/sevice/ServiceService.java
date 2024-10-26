@@ -33,11 +33,11 @@ public class ServiceService {
     public ServiceDto updateService(Long id, ServiceDto dto) {
         ServiceEntity existingEntity = getServiceEntityById(id);
 
-        existingEntity.setName(dto.getName());
-        existingEntity.setCost(dto.getCost());
-        existingEntity.setMaxUsageLimit(dto.getMaxUsageLimit());
-        existingEntity.setActive(dto.isActive());
-        return serviceMapper.mapToDto( serviceRepository.save(existingEntity));
+        existingEntity.setName(dto.getName())
+                .setCost(dto.getCost())
+                .setMaxUsageLimit(dto.getMaxUsageLimit())
+                .setActive(dto.isActive());
+        return serviceMapper.mapToDto(serviceRepository.save(existingEntity));
     }
 
     public void deleteService(Long id) {
@@ -45,7 +45,7 @@ public class ServiceService {
         serviceRepository.delete(existingEntity);
     }
 
-    private ServiceEntity getServiceEntityById(Long id) {
+    public ServiceEntity getServiceEntityById(Long id) {
         return serviceRepository.findById(id)
                 .orElseThrow(() -> new LogicalException(ExceptionSpec.SERVICE_NOT_FOUND));
     }
