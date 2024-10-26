@@ -1,6 +1,6 @@
 package com.example.demo.exception;
 
-import com.example.demo.dto.ErrorResponse;
+import com.example.demo.dto.ErrorDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +29,16 @@ public class ExceptionHandling extends ResponseEntityExceptionHandler {
         return mapException(e);
     }
 
-    private ResponseEntity<ErrorResponse> createErrorResponse(LogicalException e) {
+    private ResponseEntity<ErrorDto> createErrorResponse(LogicalException e) {
         return ResponseEntity
                 .status(e.getSpecs().getHttpStatus())
-                .body(new ErrorResponse(e.getSpecs().getMessage()));
+                .body(new ErrorDto(e.getSpecs().getMessage()));
     }
 
     private Object mapException(Exception e) {
         log.error("Exception Occurred!", e);
         return ResponseEntity
                 .status(ExceptionSpec.SERVER_ERROR.getHttpStatus())
-                .body(new ErrorResponse(ExceptionSpec.SERVER_ERROR.getMessage()));
+                .body(new ErrorDto(ExceptionSpec.SERVER_ERROR.getMessage()));
     }
 }

@@ -10,6 +10,5 @@ import java.util.List;
 public interface ServiceMapper {
    ServiceDto mapToDto(ServiceEntity entity);
    List<ServiceDto> mapToDtoList(List<ServiceEntity> entity);
-
    ServiceEntity mapToEntity(ServiceDto dto);
 }
