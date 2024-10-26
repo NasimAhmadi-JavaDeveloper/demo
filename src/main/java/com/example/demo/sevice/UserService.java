@@ -30,7 +30,7 @@ public class UserService {
             userEntity.getPermissions().add(serviceEntity);
             return userMapper.mapToDto(userRepository.save(userEntity));
         } else {
-            throw new LogicalException(ExceptionSpec.PERMISSION_ERROR);
+            throw new LogicalException(ExceptionSpec.USER_SHOULD_BE_SIMPLE);
         }
     }
 
@@ -42,7 +42,7 @@ public class UserService {
             userEntity.getPermissions().remove(serviceEntity);
             return userMapper.mapToDto(userRepository.save(userEntity));
         } else {
-            throw new LogicalException(ExceptionSpec.PERMISSION_ERROR);
+            throw new LogicalException(ExceptionSpec.USER_SHOULD_BE_SIMPLE);
         }
     }
 
@@ -73,7 +73,6 @@ public class UserService {
                 .setPassword(dto.getPassword())
                 .setUserType(dto.getUserType())
                 .setCredit(dto.getCredit());
-
         return userMapper.mapToDto(userRepository.save(existingEntity));
     }
 
