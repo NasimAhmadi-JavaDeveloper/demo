@@ -24,4 +24,6 @@ public interface UserMapper {
     }
 
    UserDto.Credit mapToCredit(UserEntity entity);
+
+    Set<UserDto.Permission> mapToPermissionDto(Set<ServiceEntity> permissions);
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @RestController
 @Tag(name = "User")
@@ -47,5 +48,10 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> update(@RequestBody @Valid UserDto.Update dto) {
         return ResponseEntity.ok(userService.updateUser(dto));
+    }
+
+    @GetMapping("/{username}/authorized_services")
+    public ResponseEntity<Set<UserDto.Permission>> getAuthorizedServices(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getAuthorizedServices(username));
     }
 }

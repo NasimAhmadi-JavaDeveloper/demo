@@ -58,4 +58,14 @@ public class UserDto {
         private String username;
         private BigDecimal credit;
     }
+
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Permission {
+        private Long id;
+        private String username;
+        private Set<Long> permissions;
+    }
 }

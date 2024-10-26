@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,7 +28,7 @@ public class UserService {
         UserEntity userEntity = getUserEntityById(userId);
         ServiceEntity serviceEntity = serviceJunction.getServiceEntityById(serviceId);
 
-        if (userEntity.getUserType() == UserEntity.UserType.SIMPLE) {
+        if (UserEntity.UserType.SIMPLE.equals(userEntity.getUserType())) {
             userEntity.getPermissions().add(serviceEntity);
             return userMapper.mapToDto(userRepository.save(userEntity));
         } else {
@@ -38,7 +40,7 @@ public class UserService {
         UserEntity userEntity = getUserEntityById(userId);
         ServiceEntity serviceEntity = serviceJunction.getServiceEntityById(serviceId);
 
-        if (userEntity.getUserType() == UserEntity.UserType.SIMPLE) {
+        if (UserEntity.UserType.SIMPLE.equals(userEntity.getUserType())) {
             userEntity.getPermissions().remove(serviceEntity);
             return userMapper.mapToDto(userRepository.save(userEntity));
         } else {
@@ -59,7 +61,7 @@ public class UserService {
     public UserDto.Credit allocateCredit(Long userId, BigDecimal amount) {
         UserEntity userEntity = getUserEntityById(userId);
 
-        if (userEntity.getUserType() == UserEntity.UserType.SIMPLE) {
+        if (UserEntity.UserType.SIMPLE.equals(userEntity.getUserType())) {
             userEntity.setCredit(userEntity.getCredit().add(amount));
             return userMapper.mapToCredit(userRepository.save(userEntity));
         } else {
@@ -83,5 +85,17 @@ public class UserService {
 
     public void saveUserEntity(UserEntity userEntity) {
         userRepository.save(userEntity);
+    }
+
+    public Set<UserDto.Permission> getAuthorizedServices(String username) {
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new LogicalException(ExceptionSpec.USER_NAME_NOT_FOUND_EXCEPTION));
+
+        Set<ServiceEntity> permissions = user.getPermissions()
+                .stream()
+                .filter(ServiceEntity::isActive)
+                .collect(Collectors.toSet());
+
+       return userMapper.mapToPermissionDto(permissions);
     }
 }
