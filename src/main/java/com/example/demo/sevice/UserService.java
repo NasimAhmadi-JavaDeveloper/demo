@@ -28,7 +28,11 @@ public class UserService {
         ServiceEntity serviceEntity = serviceRepository.findById(serviceId)
                 .orElseThrow(() -> new LogicalException(ExceptionSpec.SERVICE_NOT_FOUND));
 
-        userEntity.getPermissions().add(serviceEntity);
-        return userMapper.mapToDto(userRepository.save(userEntity));
+        if (userEntity.getUserType() == UserEntity.UserType.SIMPLE) {
+            userEntity.getPermissions().add(serviceEntity);
+            return userMapper.mapToDto(userRepository.save(userEntity));
+        } else {
+            throw new LogicalException(ExceptionSpec.PERMISSION_ERROR);
+        }
     }
 }
