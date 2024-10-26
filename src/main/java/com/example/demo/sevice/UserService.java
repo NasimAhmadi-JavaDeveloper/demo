@@ -20,11 +20,11 @@ public class UserService {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
-    private final ServiceService serviceService;
+    private final ServiceJunction serviceJunction;
 
     public UserDto grantServicePermission(Long userId, Long serviceId) {
         UserEntity userEntity = getUserEntityById(userId);
-        ServiceEntity serviceEntity = serviceService.getServiceEntityById(serviceId);
+        ServiceEntity serviceEntity = serviceJunction.getServiceEntityById(serviceId);
 
         if (userEntity.getUserType() == UserEntity.UserType.SIMPLE) {
             userEntity.getPermissions().add(serviceEntity);
@@ -36,7 +36,7 @@ public class UserService {
 
     public UserDto revokeServicePermission(Long userId, Long serviceId) {
         UserEntity userEntity = getUserEntityById(userId);
-        ServiceEntity serviceEntity = serviceService.getServiceEntityById(serviceId);
+        ServiceEntity serviceEntity = serviceJunction.getServiceEntityById(serviceId);
 
         if (userEntity.getUserType() == UserEntity.UserType.SIMPLE) {
             userEntity.getPermissions().remove(serviceEntity);
@@ -76,8 +76,12 @@ public class UserService {
         return userMapper.mapToDto(userRepository.save(existingEntity));
     }
 
-    private UserEntity getUserEntityById(Long dto) {
+    public UserEntity getUserEntityById(Long dto) {
         return userRepository.findById(dto)
                 .orElseThrow(() -> new LogicalException(ExceptionSpec.USER_NOT_FOUND));
+    }
+
+    public void saveUserEntity(UserEntity userEntity) {
+        userRepository.save(userEntity);
     }
 }

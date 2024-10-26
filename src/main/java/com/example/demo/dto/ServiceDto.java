@@ -1,7 +1,9 @@
 package com.example.demo.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+
 import lombok.*;
+
+import javax.validation.constraints.NotEmpty;
 
 @Setter
 @Getter

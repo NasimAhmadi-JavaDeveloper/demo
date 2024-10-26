@@ -1,10 +1,10 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -21,6 +21,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserType userType;
     @Column(nullable = false)
     private BigDecimal credit;

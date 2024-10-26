@@ -1,9 +1,9 @@
 package com.example.demo.dto;
 
 import com.example.demo.entity.UserEntity;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.util.Set;
 
